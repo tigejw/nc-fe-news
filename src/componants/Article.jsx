@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import ArticleComments from "./ArticleComments";
+import Voting from "./Voting";
 
 export default function Article() {
   const { article_id } = useParams();
@@ -9,60 +10,6 @@ export default function Article() {
   const [commentsData, setCommentsData] = useState([]);
   const [articleIsLoading, setArticleIsLoading] = useState(true);
   const [commentIsLoading, setCommentIsLoading] = useState(true);
-  const [isVoting, setIsVoting] = useState(false);
-
-  function handleVotes(vote, comment_id) {
-    if (isVoting) return;
-    setIsVoting(true);
-
-    const isArticleVote = !comment_id;
-
-    if (isArticleVote) {
-      updateArticleVote(vote);
-    } else {
-      updateCommentVote(vote, comment_id);
-    }
-
-    const apiCallString = isArticleVote ? "articles" : "comments";
-    const apiCallID = comment_id || article_id;
-
-    axios
-      .patch(
-        `https://nc-news-ctm3.onrender.com/api/${apiCallString}/${apiCallID}`,
-        { inc_votes: vote }
-      )
-      .catch(() => {
-        if (isArticleVote) {
-          updateArticleVote(-vote);
-        } else {
-          updateCommentVote(-vote, comment_id);
-        }
-      })
-      .finally(() => {
-        setIsVoting(false);
-      });
-  }
-
-  function updateArticleVote(vote) {
-    setArticleData((article) => {
-      const articleCopy = structuredClone(article);
-      articleCopy.votes += vote;
-      return articleCopy;
-    });
-  }
-
-  function updateCommentVote(vote, comment_id) {
-    setCommentsData((comments) => {
-      const commentsCopy = structuredClone(comments);
-      commentsCopy.map((comment) => {
-        if (comment.comment_id === comment_id) {
-          comment.votes += vote;
-        }
-        return comment;
-      });
-      return commentsCopy;
-    });
-  }
 
   useEffect(() => {
     axios
@@ -106,27 +53,11 @@ export default function Article() {
                 <p className="article-page-date">
                   {new Date(articleData.created_at).toLocaleString()}
                 </p>
-                <div className="vote-box">
-                  <button
-                    className="upvote"
-                    onClick={() => {
-                      handleVotes(1);
-                    }}
-                  >
-                    ↑
-                  </button>
-                  <p className="article-page-votes">
-                    Votes: {articleData.votes}
-                  </p>
-                  <button
-                    className="downvote"
-                    onClick={() => {
-                      handleVotes(-1);
-                    }}
-                  >
-                    ↓
-                  </button>
-                </div>
+                <Voting
+                  articleData={articleData}
+                  setArticleData={setArticleData}
+                  article_id={article_id}
+                />
               </div>
             </div>
 
@@ -137,10 +68,11 @@ export default function Article() {
             <p className="article-page-body">{articleData.body}</p>
           </main>
           <ArticleComments
-            handleVotes={handleVotes}
-            updateCommentVote={updateCommentVote}
+            articleData={articleData}
+            setArticleData={setArticleData}
             totalComments={articleData.comment_count}
             commentsData={commentsData}
+            setCommentsData={setCommentsData}
           />
         </div>
       </div>

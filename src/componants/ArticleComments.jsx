@@ -1,8 +1,11 @@
+import Voting from "./Voting";
+
 export default function ArticleComments({
-  handleVotes,
-  updateCommentVote,
+  articleData,
+  setArticleData,
   totalComments,
   commentsData,
+  setCommentsData,
 }) {
   return (
     <>
@@ -18,25 +21,13 @@ export default function ArticleComments({
                   {new Date(comment.created_at).toLocaleString()}
                 </p>
                 <p className="comment-body">{comment.body}</p>
-                <div className="comment-vote-box">
-                  <button
-                    className="upvote"
-                    onClick={() => {
-                      handleVotes(1, comment.comment_id);
-                    }}
-                  >
-                    ↑
-                  </button>
-                  <p className="comment-votes">Votes: {comment.votes}</p>
-                  <button
-                    className="downvote"
-                    onClick={() => {
-                      handleVotes(-1, comment.comment_id);
-                    }}
-                  >
-                    ↓
-                  </button>
-                </div>
+                <Voting
+                  commentsData={commentsData}
+                  comment_id={comment.comment_id}
+                  articleData={articleData}
+                  setArticleData={setArticleData}
+                  setCommentsData={setCommentsData}
+                />
               </div>
             );
           })}
