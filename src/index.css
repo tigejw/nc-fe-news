@@ -124,6 +124,20 @@ link {
   position: absolute;
   right: 0px;
   top: 10%;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.upvote,
+.downvote {
+  cursor: pointer;
+  background: none;
+  font-size: 20px;
+  font-weight: bold;
+  border: none;
+  color: white;
+  padding: 0;
 }
 
 .article-page-img {
@@ -159,7 +173,8 @@ link {
 .comment-vote-box {
   position: absolute;
   right: 10px;
-  bottom: 0px;
+  bottom: 10px;
+  display: flex;
 }
 
 .comment-votes {

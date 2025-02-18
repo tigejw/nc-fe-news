@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import ArticleComments from "./ArticleComments";
 
 export default function Article() {
   const { article_id } = useParams();
@@ -8,9 +9,61 @@ export default function Article() {
   const [commentsData, setCommentsData] = useState([]);
   const [articleIsLoading, setArticleIsLoading] = useState(true);
   const [commentIsLoading, setCommentIsLoading] = useState(true);
-  const fetchComments = axios.get(
-    `https://nc-news-ctm3.onrender.com/api/articles/${article_id}/comments`
-  );
+  const [isVoting, setIsVoting] = useState(false);
+
+  function handleVotes(vote, comment_id) {
+    if (isVoting) return;
+    setIsVoting(true);
+
+    const isArticleVote = !comment_id;
+
+    if (isArticleVote) {
+      updateArticleVote(vote);
+    } else {
+      updateCommentVote(vote, comment_id);
+    }
+
+    const apiCallString = isArticleVote ? "articles" : "comments";
+    const apiCallID = comment_id || article_id;
+
+    axios
+      .patch(
+        `https://nc-news-ctm3.onrender.com/api/${apiCallString}/${apiCallID}`,
+        { inc_votes: vote }
+      )
+      .catch(() => {
+        if (isArticleVote) {
+          updateArticleVote(-vote);
+        } else {
+          updateCommentVote(-vote, comment_id);
+        }
+      })
+      .finally(() => {
+        setIsVoting(false);
+      });
+  }
+
+  function updateArticleVote(vote) {
+    setArticleData((article) => {
+      const articleCopy = structuredClone(article);
+      articleCopy.votes += vote;
+      return articleCopy;
+    });
+  }
+
+  function updateCommentVote(vote, comment_id) {
+    setCommentsData((comments) => {
+      const commentsCopy = structuredClone(comments);
+      commentsCopy.map((comment) => {
+        if (comment.comment_id === comment_id) {
+          comment.votes += vote;
+        }
+        return comment;
+      });
+      return commentsCopy;
+    });
+  }
+
   useEffect(() => {
     axios
       .get(`https://nc-news-ctm3.onrender.com/api/articles/${article_id}`)
@@ -23,9 +76,6 @@ export default function Article() {
       .catch((err) => {
         console.log(err, "ERRROR");
       });
-  }, []);
-
-  useEffect(() => {
     axios
       .get(
         `https://nc-news-ctm3.onrender.com/api/articles/${article_id}/comments`
@@ -57,9 +107,25 @@ export default function Article() {
                   {new Date(articleData.created_at).toLocaleString()}
                 </p>
                 <div className="vote-box">
+                  <button
+                    className="upvote"
+                    onClick={() => {
+                      handleVotes(1);
+                    }}
+                  >
+                    ↑
+                  </button>
                   <p className="article-page-votes">
                     Votes: {articleData.votes}
                   </p>
+                  <button
+                    className="downvote"
+                    onClick={() => {
+                      handleVotes(-1);
+                    }}
+                  >
+                    ↓
+                  </button>
                 </div>
               </div>
             </div>
@@ -70,31 +136,12 @@ export default function Article() {
             />
             <p className="article-page-body">{articleData.body}</p>
           </main>
-
-          <h3 className="comments-header">
-            {articleData.comment_count || 0} Comments:
-          </h3>
-          <p>Comment bar here post!!:D</p>
-          {commentsData.length ? (
-            <ul>
-              {commentsData.map((comment) => {
-                return (
-                  <div className="comment-card" key={comment.comment_id}>
-                    <h5 className="comment-author">{comment.author}</h5>
-                    <p className="comment-date">
-                      {new Date(comment.created_at).toLocaleString()}
-                    </p>
-                    <p className="comment-body">{comment.body}</p>
-                    <div className="comment-vote-box">
-                      <p className="comment-votes">Votes: {comment.votes}</p>
-                    </div>
-                  </div>
-                );
-              })}
-            </ul>
-          ) : (
-            <p>No comments yet!</p>
-          )}
+          <ArticleComments
+            handleVotes={handleVotes}
+            updateCommentVote={updateCommentVote}
+            totalComments={articleData.comment_count}
+            commentsData={commentsData}
+          />
         </div>
       </div>
     );
