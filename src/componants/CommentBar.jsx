@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useState, setState } from "react";
 import { UsernameContext } from "../contexts/Username";
 import axios from "axios";
 export default function CommentBar({ article_id, setCommentsData }) {
@@ -13,32 +13,36 @@ export default function CommentBar({ article_id, setCommentsData }) {
         `https://nc-news-ctm3.onrender.com/api/articles/${article_id}/comments`,
         { username: username, body: tempComment }
       )
-      .then(() => {
-        this.forceUpdate();
+      .then(({ data: { comment } }) => {
+        revertOptimisticRendering();
+        setCommentsData((comments) => {
+          return [comment, ...comments];
+        });
       })
       .catch((err) => {
+        //add ensure you are logged in!
         revertOptimisticRendering();
-      });
+      }),
+      [];
   }
 
   function updateComments() {
     setCommentsData((comments) => {
-      const commentsCopy = structuredClone(comments);
-      commentsCopy.unshift({
-        author: username,
-        body: tempComment,
-        votes: "n/a",
-        created_at: Date.now(),
-      });
-      return commentsCopy;
+      return [
+        {
+          author: username,
+          body: tempComment,
+          votes: 0,
+          created_at: Date.now(),
+        },
+        ...comments,
+      ];
     });
   }
 
   function revertOptimisticRendering() {
     setCommentsData((comments) => {
-      const commentsCopy = structuredClone(comments);
-      commentsCopy.shift();
-      return commentsCopy;
+      return comments.slice(1);
     });
     //add error handling message
   }
@@ -47,6 +51,7 @@ export default function CommentBar({ article_id, setCommentsData }) {
     <div className="form-container">
       <form onSubmit={handleSubmit} id="comment-form">
         <label htmlFor="new-comment">Join the discussion: </label>
+        <br></br>
         <input
           id="new-comment"
           value={tempComment}
