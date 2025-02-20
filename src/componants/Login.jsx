@@ -43,6 +43,7 @@ export default function Login() {
         ></input>
         <button type="submit">Submit!</button>
       </form>
+      <p>Guest username is: "jessjelly" ! :)</p>
       <div className="error">
         {invalidUsername ? <p>Username must exist! Try jessjelly! ;)</p> : null}
       </div>

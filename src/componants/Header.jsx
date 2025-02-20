@@ -13,6 +13,8 @@ export default function Header() {
           ) : (
             <Link to="/login">Login!</Link>
           )}
+          <br></br>
+          <Link to="/topics">Topics!</Link>
         </nav>
       </header>
     </>
