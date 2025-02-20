@@ -8,7 +8,7 @@ export default function DeleteMe({
   const [failedDelete, setFailedDelete] = useState(false);
   function deleteComment() {
     axios
-      .delete(`https://nc-news-ctm3.onrender.cm/api/comments/${comment_id}`)
+      .delete(`https://nc-news-ctm3.onrender.com/api/comments/${comment_id}`)
       .then(() => {
         setCommentsData((comments) => {
           const commentsCopy = [...comments];

@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import axios from "axios";
-
 import ArticleCard from "./ArticleCard";
-export default function Home() {
-  const [articlesData, setArticlesData] = useState(null);
+export default function Topic() {
+  const { topic_slug } = useParams();
+  const [articlesData, setArticlesData] = useState({});
   const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     axios
@@ -13,6 +14,9 @@ export default function Home() {
       })
       .finally(() => {
         setIsLoading(false);
+      })
+      .catch((err) => {
+        console.log(err);
       });
   }, []);
 
@@ -21,14 +25,14 @@ export default function Home() {
   } else {
     return (
       <>
-        <div className="filters"></div>
-        <main>
-          <ul>
-            {articlesData.map((article) => {
-              return <ArticleCard article={article} key={article.article_id} />;
-            })}
-          </ul>
-        </main>
+        <h3 className="topic-title">{topic_slug}</h3>
+        <ul>
+          {articlesData.map((article) => {
+            return article.topic === topic_slug ? (
+              <ArticleCard article={article} key={article.article_id} />
+            ) : null;
+          })}
+        </ul>
       </>
     );
   }
