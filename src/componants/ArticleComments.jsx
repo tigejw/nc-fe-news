@@ -1,16 +1,16 @@
+import CommentBar from "./CommentBar";
 import Voting from "./Voting";
 
 export default function ArticleComments({
-  articleData,
-  setArticleData,
   totalComments,
   commentsData,
   setCommentsData,
+  article_id,
 }) {
   return (
     <>
       <h3 className="comments-header">{totalComments || 0} Comments:</h3>
-      <p>Comment bar here post!!:D</p>
+      <CommentBar article_id={article_id} setCommentsData={setCommentsData} />
       {totalComments ? (
         <ul>
           {commentsData.map((comment) => {
@@ -24,8 +24,6 @@ export default function ArticleComments({
                 <Voting
                   commentsData={commentsData}
                   comment_id={comment.comment_id}
-                  articleData={articleData}
-                  setArticleData={setArticleData}
                   setCommentsData={setCommentsData}
                 />
               </div>

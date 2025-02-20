@@ -68,11 +68,10 @@ export default function Article() {
             <p className="article-page-body">{articleData.body}</p>
           </main>
           <ArticleComments
-            articleData={articleData}
-            setArticleData={setArticleData}
             totalComments={articleData.comment_count}
             commentsData={commentsData}
             setCommentsData={setCommentsData}
+            article_id={article_id}
           />
         </div>
       </div>
