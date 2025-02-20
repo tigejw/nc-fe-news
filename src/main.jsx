@@ -3,10 +3,13 @@ import App from "./App.jsx";
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
+import { UsernameProvider } from "./contexts/Username.jsx";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <BrowserRouter>
-    <App />
-  </BrowserRouter>
+  <UsernameProvider>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </UsernameProvider>
 );

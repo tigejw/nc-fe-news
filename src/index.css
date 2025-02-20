@@ -91,6 +91,7 @@ link {
 .article-page-infocard {
   width: 100%;
   max-width: 600px;
+  min-width: min(98vw, 600px);
 }
 
 .article-page-topic {
@@ -118,6 +119,10 @@ link {
 .article-page-date {
   margin: 0;
   font-size: 12px;
+}
+
+.article-page-body {
+  text-wrap: wrap;
 }
 
 .vote-box {
@@ -156,6 +161,7 @@ link {
   border: black 2px solid;
   border-radius: 10px;
   position: relative;
+  min-width: 250px;
 }
 
 .comment-author {
@@ -179,4 +185,35 @@ link {
 
 .comment-votes {
   margin: 0;
+}
+
+.form-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+#comment-form {
+  align-items: center;
+  border-radius: 10px;
+  width: 98vw;
+  padding: 10px 0px;
+  box-sizing: border-box;
+  max-width: 600px;
+}
+
+#new-comment {
+  width: 78%;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+}
+
+#comment-submit {
+  color: "white";
+  border: "none";
+  border-radius: "15px";
+  border-radius: 10px;
+  width: 20%;
+  min-width: 60px;
 }
