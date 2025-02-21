@@ -1,7 +1,5 @@
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-
   color: rgba(255, 255, 255, 0.87);
 
   font-synthesis: none;
@@ -35,17 +33,19 @@ ul {
   border-radius: 10px;
   box-sizing: border-box;
   padding-left: 15px;
-  border: 3px solid black;
+  border: 2.5px solid black;
   margin: 5px;
   max-width: 400px;
 }
 .content {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
 }
 .article-topic {
   font-size: 12px;
-  margin-bottom: 5px;
+  margin-top: 10px;
+  margin-bottom: 8px;
 }
 .article-title {
   margin: 0;
@@ -69,6 +69,7 @@ ul {
 
 .info {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   font-size: 14px;
 }
@@ -93,7 +94,9 @@ link {
   max-width: 600px;
   min-width: min(98vw, 600px);
 }
-
+.article-page-votes {
+  margin: 0;
+}
 .article-page-topic {
   font-size: 14px;
   font-weight: bold;
@@ -184,7 +187,7 @@ link {
 }
 
 .comment-votes {
-  margin: 0;
+  margin: 5px 0 0 0;
 }
 
 .form-container {
@@ -233,4 +236,43 @@ link {
 
 .topic-title {
   padding-left: 10px;
+}
+
+.filters {
+  flex-wrap: wrap;
+  display: flex;
+  align-items: right;
+  padding-left: 10px;
+}
+.sort-by {
+  padding-right: 20px;
+  border-radius: 25px;
+}
+
+.btn-primary {
+  --bs-btn-bg: ;
+  --bs-btn-border-color: null;
+  --bs-btn-active-bg: ;
+}
+.dropdown-menu {
+  --bs-dropdown-bg: #177b83;
+}
+.container {
+  padding: 0;
+}
+
+.login-submit {
+  margin-left: 20px;
+  border-radius: 5px;
+  background-color: #177b83;
+  color: white;
+  border: 0;
+  padding: 3px 10px;
+}
+
+.login-bar {
+  background: rgb(236, 225, 204);
+  border-radius: 3px;
+  border: 0;
+  padding: 3px 10px;
 }

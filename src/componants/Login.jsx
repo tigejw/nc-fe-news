@@ -32,8 +32,9 @@ export default function Login() {
   return (
     <>
       <form onSubmit={handleSubmit}>
-        <label htmlFor="usernameInput">Username:</label>
+        <label htmlFor="usernameInput">Username:⠀ </label>
         <input
+          className="login-bar"
           id="usernameInput"
           type="text"
           value={tempUsernameInput}
@@ -41,11 +42,14 @@ export default function Login() {
             setTempUsernameInput(e.target.value);
           }}
         ></input>
-        <button type="submit">Submit!</button>
+        <button type="submit" className="login-submit">
+          Submit!
+        </button>
       </form>
+      <br></br>
       <p>Guest username is: "jessjelly" ! :)</p>
       <div className="error">
-        {invalidUsername ? <p>Username must exist! Try jessjelly! ;)</p> : null}
+        {invalidUsername ? <p>Username must exist!</p> : null}
       </div>
     </>
   );
