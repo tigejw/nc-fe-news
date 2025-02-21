@@ -1,10 +1,6 @@
 import axios from "axios";
 import { useState } from "react";
-export default function DeleteMe({
-  comment_id,
-  commentsData,
-  setCommentsData,
-}) {
+export default function DeleteMe({ comment_id, setCommentsData }) {
   const [failedDelete, setFailedDelete] = useState(false);
   function deleteComment() {
     axios
@@ -24,7 +20,7 @@ export default function DeleteMe({
 
   return (
     <>
-      <button onClick={deleteComment}>Delete Me</button>
+      <button className="delete-me" onClick={deleteComment}>Delete Me</button>
       {failedDelete ? (
         <p>Sorry! Couldn't complete that request, please try again later!</p>
       ) : null}

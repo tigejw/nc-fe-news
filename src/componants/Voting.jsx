@@ -9,6 +9,7 @@ export default function Voting({
   setCommentsData,
 }) {
   const [isVoting, setIsVoting] = useState(false);
+  const [error, setError] = useState(null);
 
   function handleVotes(vote, comment_id) {
     if (isVoting) return;

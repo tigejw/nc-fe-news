@@ -3,13 +3,19 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import ArticleComments from "./ArticleComments";
 import Voting from "./Voting";
-
+import { useNavigate } from "react-router";
 export default function Article() {
   const { article_id } = useParams();
   const [articleData, setArticleData] = useState(null);
   const [commentsData, setCommentsData] = useState([]);
   const [articleIsLoading, setArticleIsLoading] = useState(true);
   const [commentIsLoading, setCommentIsLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const nav = useNavigate();
+
+  function handleErrorNav(error) {
+    nav("/error", { state: error.message });
+  }
 
   useEffect(() => {
     axios
@@ -21,7 +27,7 @@ export default function Article() {
         setArticleIsLoading(false);
       })
       .catch((err) => {
-        console.log(err, "ERRROR");
+        setError(err);
       });
     axios
       .get(
@@ -34,12 +40,14 @@ export default function Article() {
         setCommentIsLoading(false);
       })
       .catch((err) => {
-        console.log(err, "ERROR");
+        setError(err);
       });
   }, []);
 
   if (articleIsLoading || commentIsLoading) {
     return <p>Loading!</p>;
+  } else if (error) {
+    handleErrorNav(error);
   } else {
     return (
       <div>
