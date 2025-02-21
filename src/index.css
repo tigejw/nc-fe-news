@@ -39,7 +39,7 @@ ul {
 }
 .content {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   justify-content: space-between;
 }
 .article-topic {
@@ -52,7 +52,7 @@ ul {
   font-size: 20px;
   flex-wrap: wrap;
 }
-.aritcle-img {
+.article-img {
   margin-top: 32px;
   margin: 5px;
   width: 100px;

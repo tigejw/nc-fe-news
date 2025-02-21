@@ -9,7 +9,7 @@ export default function ArticleCard({ article }) {
         <p className="article-topic">{article.topic}</p>
         <div className="content">
           <h3 className="article-title">{article.title}</h3>
-          <img className="aritcle-img" src={article.article_img_url} />
+          <img className="article-img" src={article.article_img_url} />
         </div>
         <div className="info">
           <p className="article-author">{article.author}</p>
