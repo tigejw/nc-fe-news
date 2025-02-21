@@ -260,7 +260,6 @@ link {
 .container {
   padding: 0;
 }
-
 .login-submit {
   margin-left: 20px;
   border-radius: 5px;
@@ -275,4 +274,11 @@ link {
   border-radius: 3px;
   border: 0;
   padding: 3px 10px;
+}
+
+.delete-me {
+  border-radius: 5px;
+  background-color: #177b83;
+  border: 1px black solid;
+  margin-bottom: 8px;
 }

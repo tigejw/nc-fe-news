@@ -33,7 +33,6 @@ export default function ArticleComments({
                 />
                 {comment.author === username ? (
                   <DeleteMe
-                    commentsData={commentsData}
                     comment_id={comment.comment_id}
                     setCommentsData={setCommentsData}
                   />

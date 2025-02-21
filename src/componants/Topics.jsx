@@ -1,9 +1,15 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router";
+import { useNavigate } from "react-router";
 export default function Topics() {
   const [topicsData, setTopicsData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const nav = useNavigate();
+  function handleErrorNav(error) {
+    nav("/error", { state: error.message });
+  }
   useEffect(() => {
     axios
       .get("https://nc-news-ctm3.onrender.com/api/topics")
@@ -14,12 +20,14 @@ export default function Topics() {
         setIsLoading(false);
       })
       .catch((err) => {
-        console.log(err);
+        setError(err);
       });
   }, []);
 
   if (isLoading) {
     return <>Loading!</>;
+  } else if (error) {
+    handleErrorNav(error);
   } else {
     return (
       <>

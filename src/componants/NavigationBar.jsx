@@ -4,11 +4,11 @@ import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import { Link } from "react-router";
-export default function BasicExample() {
+export default function NavigationBar() {
   const { username } = useContext(UsernameContext);
 
   return (
-    <Navbar className="bootstrap-navbar" expand="lg">
+    <Navbar className="bootstrap-navbar" expand="false">
       <Container>
         <h3>@nc_news</h3>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />

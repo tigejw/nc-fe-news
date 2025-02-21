@@ -7,14 +7,21 @@ export default function Login() {
   const [users, setUsers] = useState([]);
   const [tempUsernameInput, setTempUsernameInput] = useState("");
   const [invalidUsername, setInvalidUsername] = useState(false);
+  const [error, setError] = useState(null);
   const nav = useNavigate();
   useEffect(() => {
     axios
       .get("https://nc-news-ctm3.onrender.com/api/users")
       .then(({ data: { users } }) => {
         setUsers(users);
+      })
+      .catch((err) => {
+        setError(err);
       });
   });
+  function handleErrorNav(error) {
+    nav("/error", { state: error.message });
+  }
 
   function checkUsernameExists(inputtedUsername) {
     return users.some((user) => {
@@ -29,28 +36,33 @@ export default function Login() {
       nav(-1);
     } else setInvalidUsername(true);
   }
-  return (
-    <>
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="usernameInput">Username:⠀ </label>
-        <input
-          className="login-bar"
-          id="usernameInput"
-          type="text"
-          value={tempUsernameInput}
-          onChange={(e) => {
-            setTempUsernameInput(e.target.value);
-          }}
-        ></input>
-        <button type="submit" className="login-submit">
-          Submit!
-        </button>
-      </form>
-      <br></br>
-      <p>Guest username is: "jessjelly" ! :)</p>
-      <div className="error">
-        {invalidUsername ? <p>Username must exist!</p> : null}
-      </div>
-    </>
-  );
+
+  if (error) {
+    handleErrorNav(error);
+  } else {
+    return (
+      <>
+        <form onSubmit={handleSubmit}>
+          <label htmlFor="usernameInput">Username:⠀ </label>
+          <input
+            className="login-bar"
+            id="usernameInput"
+            type="text"
+            value={tempUsernameInput}
+            onChange={(e) => {
+              setTempUsernameInput(e.target.value);
+            }}
+          ></input>
+          <button type="submit" className="login-submit">
+            Submit!
+          </button>
+        </form>
+        <br></br>
+        <p>Guest username is: "jessjelly" ! :)</p>
+        <div className="error">
+          {invalidUsername ? <p>Username must exist!</p> : null}
+        </div>
+      </>
+    );
+  }
 }
